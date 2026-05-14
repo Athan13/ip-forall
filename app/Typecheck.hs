@@ -72,4 +72,4 @@ checkType t ty = case t of
     _ -> do
         ty' <- inferType t
         unless (ty == ty') (throwError $
-            "checkType: typecheck failed for (" ++ show t ++ " : " ++ show ty ++ ")")
+            "checkType: failed for " ++ show t ++ ". Expected " ++ show ty ++ " but got " ++ show ty')

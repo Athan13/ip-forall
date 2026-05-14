@@ -21,7 +21,7 @@ data Term (n :: Nat)
     TyUnit
     | -- | the inhabitant of `Unit`, written `()`
     LitUnit
-    | -- | the type with two inhabitants (homework) `Bool`
+    | -- | the type with two inhabitants `Bool`
     TyBool
     | -- | `True` and `False`
     LitBool Bool
@@ -66,4 +66,9 @@ instance Eq (Term n) where
         (App s_1 s_2, App t_1 t_2) -> (s_1 == t_1) && (s_2 == t_2)
         (TyPi x s, TyPi y t) -> (x == y) && (s == t)
         (Ann x s, Ann y t) -> x == y && s == t
+        (TyUnit, TyUnit) -> True
+        (LitUnit, LitUnit) -> True
+        (TyBool, TyBool) -> True
+        (LitBool b1, LitBool b2) -> b1 == b2
+        (If a b1 b2, If c d1 d2) -> (a == c) && (b1 == d1) && (b2 == d2)
         (_, _) -> False
