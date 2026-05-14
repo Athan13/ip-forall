@@ -5,7 +5,7 @@ import Data.Fin
 import Rebound.Bind.Local hiding (Type)
 
 data Term (n :: Nat)
-    = -- | type of types `Type`
+    = -- type of types `Type`
     TyType
     | -- | variables `x`
     Var (Fin n)
@@ -17,8 +17,29 @@ data Term (n :: Nat)
     TyPi (Type n) (Bind1 Term Term n)
     | -- | Annotated terms `( a : A )`
     Ann (Term n) (Type n)
+    | -- | the type with a single inhabitant, called `Unit`
+    TyUnit
+    | -- | the inhabitant of `Unit`, written `()`
+    LitUnit
+    | -- | the type with two inhabitants (homework) `Bool`
+    TyBool
+    | -- | `True` and `False`
+    LitBool Bool
 
 deriving instance (Generic1 Term)
+
+instance Show (Term n) where
+  show term = case term of
+    TyType -> "Type"
+    Var n -> "Var " ++ show n
+    Lam _ -> "Lam"
+    App t1 t2 -> "App (" ++ show t1 ++ ") (" ++ show t2 ++ ")"
+    TyPi _ _ -> "TyPi"
+    Ann t ty -> "Ann (" ++ show t ++ " : " ++ show ty ++ " )"
+    TyUnit -> "Unit"
+    LitUnit -> "()"
+    TyBool -> "Bool"
+    LitBool b -> show b
 
 type Type = Term
 
@@ -39,7 +60,7 @@ instance Eq (Term n) where
         (TyType, TyType) -> True
         (Var x, Var y) -> x == y
         (Lam s, Lam t) -> s == t
-        (App s1 s2, App t1 t2) -> (s1 == t1) && (s2 == t2)
+        (App s_1 s_2, App t_1 t_2) -> (s_1 == t_1) && (s_2 == t_2)
         (TyPi x s, TyPi y t) -> (x == y) && (s == t)
         (Ann x s, Ann y t) -> x == y && s == t
         (_, _) -> False

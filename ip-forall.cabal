@@ -72,6 +72,7 @@ executable ip-forall
         , InstanceSigs
         , DeriveGeneric
         , StandaloneDeriving
+        , GeneralizedNewtypeDeriving
         , LambdaCase
         , QuantifiedConstraints
         , TypeFamilies
@@ -84,7 +85,9 @@ executable ip-forall
         , DerivingStrategies
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.21.0.0,
+    build-depends:    containers ^>=0.7,
+                      mtl ^>=2.3.1,
+                      base ^>=4.21.0.0,
                       rebound,
 
     -- Directories containing source files.
