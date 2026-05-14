@@ -25,6 +25,8 @@ data Term (n :: Nat)
     TyBool
     | -- | `True` and `False`
     LitBool Bool
+    | -- | if b then a1 else a2
+    If (Type n) (Type n) (Type n)
 
 deriving instance (Generic1 Term)
 
@@ -40,6 +42,7 @@ instance Show (Term n) where
     LitUnit -> "()"
     TyBool -> "Bool"
     LitBool b -> show b
+    If a b1 b2 -> "If (" ++ show a ++ ") then (" ++ show b1 ++ ") else (" ++ show b2
 
 type Type = Term
 

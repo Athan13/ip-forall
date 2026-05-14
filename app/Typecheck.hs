@@ -49,6 +49,14 @@ inferType term = case term of
     LitUnit   -> return TyUnit
     TyBool    -> return TyType
     LitBool _ -> return TyBool
+    -- If-then-else
+    If a b1 b2 -> do
+        checkType a TyBool
+        ty_b1 <- inferType b1
+        ty_b2 <- inferType b2
+        if ty_b1 == ty_b2
+            then return ty_b1
+            else throwError $ "inferType: two branches of if must have same type at: " ++ show term
     -- Otherwise, error
     _ -> throwError $ "inferType: Need type annotation at: " ++ show term
 
